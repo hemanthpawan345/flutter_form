@@ -11,6 +11,7 @@ class HomeController extends GetxController {
   File? image;
   Position? location;
   bool isLoading = false;
+
   captureImage() async {
     final imagePicker = ImagePicker();
     final pickedImage = await imagePicker.pickImage(
@@ -28,7 +29,6 @@ class HomeController extends GetxController {
     update();
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // Location service is not enabled
       Get.snackbar(
         'Location service is not enabled!',
         'Please enable location service',
@@ -41,7 +41,6 @@ class HomeController extends GetxController {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        // Permission denied
         Get.snackbar('Location permission denied!',
             'Please provide the location permission');
       }
@@ -57,5 +56,58 @@ class HomeController extends GetxController {
     isLoading = false;
     update();
     debugPrint(location.toString());
+  }
+
+  bool validate() {
+    if (formKey.currentState!.validate()) {
+      if (image != null) {
+        if (location != null) {
+          return true;
+        } else {
+          Get.snackbar(
+            'Location is empty',
+            'Fetch Location',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.white,
+            titleText: const Text(
+              'Location is empty',
+              style: TextStyle(
+                color: Colors.red,
+                fontSize: 16,
+              ),
+            ),
+          );
+        }
+      } else {
+        location != null
+            ? Get.snackbar(
+                '',
+                'Capture Image',
+                snackPosition: SnackPosition.BOTTOM,
+                backgroundColor: Colors.white,
+                titleText: const Text(
+                  'Image is empty',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                  ),
+                ),
+              )
+            : Get.snackbar(
+                '',
+                'Fetch Location and capture Image',
+                snackPosition: SnackPosition.BOTTOM,
+                backgroundColor: Colors.white,
+                titleText: const Text(
+                  'Location and image are empty',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                  ),
+                ),
+              );
+      }
+    }
+    return false;
   }
 }
