@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../data/models/user.dart';
+import '../../data/models/place.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final User user = Get.arguments;
+    final Place user = Get.arguments;
     return Scaffold(
       body: SafeArea(
         child: Container(

@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:geolocator/geolocator.dart';
 
-class User {
-  const User({
+class Place {
+  const Place({
     required this.name,
     required this.image,
     required this.location,
